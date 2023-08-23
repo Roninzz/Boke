@@ -1,0 +1,76 @@
+@import "./theme-shoka.scss";
+@import "./transition.scss";
+@import "./markdown.scss";
+@import "./common.scss";
+
+*,
+:after,
+:before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    cursor: url("../icons/normal.cur"), default;
+    background: var(--grey-0);
+    color: var(--text-color);
+    font-family: Mulish, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 1em;
+    overflow-x: hidden; //如果它溢出了元素的内容区-剪辑div元素的左/右边缘内容
+    line-height: 2;
+}
+
+a,
+button,
+img {
+    cursor: url(https://ik.imagekit.io/nicexl/cursor/link.cur), default !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "NotoSerifSC", -apple-system, "Microsoft YaHei", sans-serif;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 1.25rem 0 0.9375rem;
+}
+
+button,
+input,
+select,
+textarea {
+    background-color: transparent;
+    border-style: none;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    border: none;
+    color: currentColor;
+    outline: 0;
+    text-decoration: none;
+    overflow-wrap: break-word; //overflow-wrap属性值normal: 允许内容顶开或溢出指定的容器边界。break-word: 内容将在边界内换行。如果需要，单词内部允许断行
+    word-wrap: break-word;
+    transition: all 0.2s ease-in-out 0s; //动画
+    cursor: pointer;
+}
+
+.clearfix:after {
+    //清除浮动
+    visibility: hidden; //hidden元素不可见  visible元素可见
+    clear: both;
+    display: block;
+    content: ".";
+    height: 0;
+}
+
+.clearfix {
+    zoom: 1;
+}
