@@ -2,6 +2,9 @@ package com.boke.domain.entity;
 
 import java.util.Date;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,8 +43,12 @@ public class Comment{
      private Integer toUid;
     //是否通过 (0否 1是)    
      private Integer isCheck;
+
+     @TableField(fill = FieldFill.INSERT)
     //评论时间    
      private Date createTime;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     //更新时间    
      private Date updateTime;
 }

@@ -10,12 +10,15 @@ import com.boke.domain.entity.User;
 import com.boke.domain.vo.CommentChildVo;
 import com.boke.domain.vo.CommentVo;
 import com.boke.domain.vo.PageVo;
+import com.boke.enums.AppHttpCodeEnum;
+import com.boke.exception.SystemException;
 import com.boke.mapper.CommentMapper;
 import com.boke.service.CommentService;
 import com.boke.service.UserService;
 import com.boke.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,30 +37,41 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Autowired
     private CommentService commentService;
 
+    //查询评论
     @Override
     public ResponseResult commentList(Integer commentType, Integer typeId, Integer pageNum, Integer pageSize) {
         //参数校验
-        //判断要查询的是那种类型的评论
-        if (commentType == SystemConstants.ARTICLE_COMMENT){
-            //查询对应文章的父评论
-            //查询文章对应id的评论
-            LambdaQueryWrapper<Comment> lwq = new LambdaQueryWrapper<>();
-            lwq.eq(Comment::getTypeId,typeId);
-            //查询parentId为-1的跟评论
-            lwq.eq(Comment::getParentId,SystemConstants.HAVE_PARENT_COMMENT);
-            //分页查询
-            Page<Comment> page = new Page<>(pageNum,pageSize);
-            page(page,lwq);
-
-            List<CommentVo> commentVos = toCommentVoList(page.getRecords());
-
-            return ResponseResult.okResult(new PageVo(commentVos,page.getTotal()));
+        //查询对应文章的父评论
+        //查询文章对应id的评论
+        LambdaQueryWrapper<Comment> lwq = new LambdaQueryWrapper<>();
+        lwq.eq(Comment::getCommentType,commentType);
+        if (typeId != null){
+            lwq.eq(Comment::getTypeId, typeId);
         }
+        //查询parentId为-1的跟评论
+        lwq.eq(Comment::getParentId, SystemConstants.HAVE_PARENT_COMMENT);
+        //分页查询
+        Page<Comment> page = new Page<>(pageNum, pageSize);
+        page(page, lwq);
 
+        List<CommentVo> commentVos = toCommentVoList(page.getRecords());
+
+        return ResponseResult.okResult(new PageVo(commentVos, page.getTotal()));
+    }
+
+    //添加评论
+    @Override
+    public ResponseResult addComment(Comment comment) {
+        //评论内容过滤
+        if (StringUtils.hasText(comment.getCommentContent())){
+            throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
+        }
+        save(comment);
         return ResponseResult.okResult();
     }
 
-    public List<CommentVo> toCommentVoList(List<Comment> list){
+    //封装父评论
+    public List<CommentVo> toCommentVoList(List<Comment> list) {
         List<CommentVo> commentVos = BeanCopyUtils.copyBeanList(list, CommentVo.class);
         //遍历commentVos
         commentVos.stream()
@@ -73,7 +87,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                     Integer id = commentVo.getId();
                     LambdaQueryWrapper<Comment> childLqw = new LambdaQueryWrapper<>();
                     //在所有评论中找出id==parentid的评论
-                    childLqw.eq(Comment::getParentId,id);
+                    childLqw.eq(Comment::getParentId, id);
                     childLqw.orderByAsc(Comment::getCreateTime);
                     List<Comment> childList = commentService.list(childLqw);
                     List<CommentChildVo> commentChildVos = toCommentChildVoList(childList);
@@ -88,7 +102,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return commentVos;
     }
 
-    public List<CommentChildVo> toCommentChildVoList(List<Comment> list){
+    //封装子评论
+    public List<CommentChildVo> toCommentChildVoList(List<Comment> list) {
         List<CommentChildVo> commentChildVos = BeanCopyUtils.copyBeanList(list, CommentChildVo.class);
 
         commentChildVos.stream()
@@ -97,7 +112,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                     Integer fromUid = commentChildVo.getFromUid();
                     User user = userService.getById(fromUid);
                     //如果没有该用户，说明用户注销了
-                    if (Objects.isNull(user)){
+                    if (Objects.isNull(user)) {
                         commentChildVo.setFromNickname("该用户已注销");
                         commentChildVo.setAvatar(null);
                         return commentChildVo;
@@ -109,7 +124,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                     //通过toUid查询 回复的评论人
                     Integer toUid = commentChildVo.getToUid();
                     User toUser = userService.getById(toUid);
-                    if (Objects.isNull(toUser)){
+                    if (Objects.isNull(toUser)) {
                         commentChildVo.setFromNickname("该用户已注销");
                         commentChildVo.setAvatar(null);
                         return commentChildVo;

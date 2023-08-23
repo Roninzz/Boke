@@ -1,11 +1,10 @@
 package com.boke.controller;
 
 import com.boke.domain.ResponseResult;
+import com.boke.domain.entity.Comment;
 import com.boke.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author DreamRay
@@ -20,5 +19,9 @@ public class CommentController {
     @GetMapping("/commentList")
     public ResponseResult commentList(Integer commentType,Integer typeId,Integer pageNum,Integer pageSize){
         return commentService.commentList(commentType,typeId,pageNum,pageSize);
+    }
+    @PostMapping
+    public ResponseResult addComment(@RequestBody Comment comment){
+        return commentService.addComment(comment);
     }
 }
