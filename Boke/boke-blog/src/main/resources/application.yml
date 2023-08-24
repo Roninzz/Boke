@@ -47,3 +47,11 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
       id-type: auto
+# 文件上传策略 local、oss、cos
+upload:
+  # oss存储
+  oss:
+    url: http://verification.raydream.top/
+    accessKey: v-I7gyTenKVIiMoJhnHdxjpFlVTFA7jcoXkPWfQg
+    secretKey: NjfBxPELEcLXeSUpMKLkqh50Co0qEOZTEjspyp_p
+    bucket: dreamy-blog

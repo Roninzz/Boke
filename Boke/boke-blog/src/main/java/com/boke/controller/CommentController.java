@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     @Autowired
     private CommentService commentService;
+    //获取评论
     @GetMapping("/commentList")
     public ResponseResult commentList(Integer commentType,Integer typeId,Integer pageNum,Integer pageSize){
         return commentService.commentList(commentType,typeId,pageNum,pageSize);
     }
+    //发表评论
     @PostMapping
     public ResponseResult addComment(@RequestBody Comment comment){
         return commentService.addComment(comment);

@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 /**
  * @author DreamRay
  * @date 2023/8/21 11:02
- * @mood happy
+ * @mood 请求拦截处理
  */
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -48,8 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //d对于登录接口  允许匿名访问
                 .antMatchers("/login").anonymous()
+                //对于下面接口，不允许匿名访问，必须登录
                 .antMatchers("/logout").authenticated()
-                .antMatchers("/friend//getAllFriend").authenticated()
+                .antMatchers("/user/userInfo").authenticated()
+                .antMatchers("/upload").authenticated()
                 //除上面外的所有请求全部不需要认证即可访问
                 .anyRequest().permitAll();
 //                .anyRequest().authenticated();

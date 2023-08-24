@@ -45,9 +45,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         //查询文章对应id的评论
         LambdaQueryWrapper<Comment> lwq = new LambdaQueryWrapper<>();
         lwq.eq(Comment::getCommentType,commentType);
-        if (typeId != null){
-            lwq.eq(Comment::getTypeId, typeId);
-        }
+        lwq.eq(!Objects.isNull(typeId),Comment::getTypeId, typeId);
         //查询parentId为-1的跟评论
         lwq.eq(Comment::getParentId, SystemConstants.HAVE_PARENT_COMMENT);
         //分页查询
