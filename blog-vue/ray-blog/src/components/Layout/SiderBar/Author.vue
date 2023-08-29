@@ -12,9 +12,9 @@
             <div class="site-desc">Dream</div>
         </div>
         <!-- 博客信息 -->
-        <blog-info></blog-info>
+        <BlogInfo></BlogInfo>
         <!-- 社交 -->
-        <social-list></social-list>
+        <SocialList></SocialList>
     </div>
 </template>
 

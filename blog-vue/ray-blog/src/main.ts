@@ -1,6 +1,7 @@
 import "@/assets/fonts/font.css";
 import "@/assets/styles/index.scss";
 import SvgIcon from "@/components/SvgIcon/index.vue"
+import * as directive from "@/directive"
 import "nprogress/nprogress.css";
 import naive from "naive-ui";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
@@ -19,7 +20,7 @@ import "@kangc/v-md-editor/lib/theme/style/vuepress.css";
 import vuepressTheme from "@kangc/v-md-editor/lib/theme/vuepress.js";
 
 import lazyPlugin from "vue3-lazy";
-import { createApp } from 'vue'
+import { createApp, Directive } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { createPinia } from 'pinia'
@@ -32,6 +33,9 @@ pinia.use(piniaPluginPersistedstate);
 
 VMdPreview.use(vuepressTheme, { Prism }).use(createTodoListPlugin()).use(createKatexPlugin())
 const app = createApp(App)
+Object.keys(directive).forEach((key) => {
+    app.directive(key, (directive as { [key: string]: Directive })[key]);
+});
 
 
 app.use(VMdPreview);

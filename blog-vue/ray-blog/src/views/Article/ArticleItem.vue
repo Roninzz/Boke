@@ -1,7 +1,6 @@
 <!-- 首页文章列表 -->
 <template>
-    <div class='article-item' style="visibility: visible; animation-name: slideUpBigIn;" v-for="article of articleList"
-        :key="article.id">
+    <div class='article-item' v-animate="['slideUpBigIn']" v-for="article of articleList" :key="article.id">
         <!-- 文章缩略图 -->
         <div class="article-cover">
             <router-link :to="`/article/${article.id}`">

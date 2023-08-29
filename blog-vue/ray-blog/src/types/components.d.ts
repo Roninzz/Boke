@@ -8,12 +8,14 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Author: typeof import('./../components/Layout/SiderBar/Author.vue')['default']
+    BlogInfo: typeof import('./../components/Layout/SiderBar/BlogInfo.vue')['default']
     Components: typeof import('./../components/index.vue')['default']
     Echarts: typeof import('./../components/Echarts/index.vue')['default']
     Footer: typeof import('./../components/Layout/Footer/index.vue')['default']
     Header: typeof import('./../components/Layout/Header/index.vue')['default']
     HelloWorld: typeof import('./../components/HelloWorld.vue')['default']
     Layout: typeof import('./../components/Layout/index.vue')['default']
+    Login: typeof import('./../components/Dialog/Login.vue')['default']
     NavBar: typeof import('./../components/Layout/Header/NavBar.vue')['default']
     NGrid: typeof import('naive-ui')['NGrid']
     NGridItem: typeof import('naive-ui')['NGridItem']
@@ -25,6 +27,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SiderBar: typeof import('./../components/Layout/SiderBar/index.vue')['default']
+    SocialList: typeof import('./../components/Layout/SiderBar/SocialList.vue')['default']
     SvgIcon: typeof import('./../components/SvgIcon/index.vue')['default']
     Toggle: typeof import('./../components/Layout/Header/Toggle.vue')['default']
     Waves: typeof import('./../components/Waves/index.vue')['default']

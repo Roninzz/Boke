@@ -24,15 +24,15 @@
 </template>
 
 <script setup lang="ts">
-// import { getRecentComment } from "@/api/comment";
-// import { RecentComment } from "@/api/comment/types";
-// import { formatDate } from "@/utils/date";
-// const commentList = ref<RecentComment[]>([]);
-// onMounted(() => {
-//     getRecentComment().then(({ data }) => {
-//         commentList.value = data.data;
-//     });
-// });
+import { getRecentComment } from "@/api/comment";
+import { RecentComment } from "@/api/comment/types";
+import { formatDate } from "@/utils/date";
+const commentList = ref<RecentComment[]>([]);
+onMounted(() => {
+    getRecentComment().then(({ data }) => {
+        commentList.value = data.data;
+    });
+});
 </script>
 
 <style lang="scss" scoped>

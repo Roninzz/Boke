@@ -1,12 +1,5 @@
 <!-- 主页 -->
-<script setup lang="ts">
-import Recommend from './Swiper/Recommend.vue';
-import Iamges from './Swiper/Images.vue';
-import Brand from './Brand/index.vue';
-import ArticleItem from '@/views/Article/ArticleItem.vue'
 
-
-</script>
 
 <template>
     <!-- 背景轮播 -->
@@ -17,15 +10,28 @@ import ArticleItem from '@/views/Article/ArticleItem.vue'
         <div class="main-container mt">
             <div class="left-container">
                 <!-- 说说 -->
+                <talkSwiper></talkSwiper>
                 <!-- 推荐文章 -->
                 <Recommend></Recommend>
                 <!-- 文章列表 -->
                 <ArticleItem></ArticleItem>
             </div>
             <!-- 右侧组件 -->
+            <SiderBar class="right-container" :class="app.sideFlag ? 'temp' : ''"></SiderBar>
         </div>
     </div>
 </template>
+
+<script setup lang="ts">
+import Recommend from './Swiper/Recommend.vue';
+import Iamges from './Swiper/Images.vue';
+import Brand from './Brand/index.vue';
+import ArticleItem from '@/views/Article/ArticleItem.vue'
+import talkSwiper from './Swiper/TalkSwiper.vue'
+import useStore from '@/store';
+const { app } = useStore();
+
+</script>
 
 
 <style lang="scss" scoped>

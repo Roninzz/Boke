@@ -22,11 +22,33 @@
                 </ul>
             </div>
         </template>
-
+        <div class="menu-item">
+            <a v-if="!user.id" @click="app.loginFlag = true" class="menu-btn">
+                <svg-icon icon-class="user"></svg-icon> 登录
+            </a>
+            <template v-else>
+                <img class="user-avatar drop" :src="user.avatar" />
+                <ul class="submenu">
+                    <li class="subitem" :class="{ active: route.meta.title === '个人中心' }">
+                        <router-link to="/user" class="link">
+                            <svg-icon icon-class="author"></svg-icon> 个人中心
+                        </router-link>
+                    </li>
+                    <li class="subitem">
+                        <!-- <a class="link" @click="logout"><svg-icon icon-class="logout"></svg-icon> 退出 </a> -->
+                    </li>
+                </ul>
+            </template>
+        </div>
     </div>
 </template>
 <script lang="ts" setup>
+import useStore from '@/store';
+
 const route = useRoute();
+const { app, user } = useStore();
+
+console.log(app.loginFlag)
 
 const menuList = [
     {
@@ -55,37 +77,37 @@ const menuList = [
             },
         ]
     },
-    {
-        name: "娱乐",
-        icon: "fun",
-        children: [
-            {
-                name: "说说",
-                icon: "talk",
-                path: "/talk"
-            },
-            {
-                name: "相册",
-                icon: "album",
-                path: "/album"
-            },
-            {
-                name: "图床",
-                icon: "upload",
-                path: "/picture"
-            },
-        ]
-    },
+    // {
+    //     name: "娱乐",
+    //     icon: "fun",
+    //     children: [
+    //         {
+    //             name: "说说",
+    //             icon: "talk",
+    //             path: "/talk"
+    //         },
+    //         {
+    //             name: "相册",
+    //             icon: "album",
+    //             path: "/album"
+    //         },
+    //         {
+    //             name: "图床",
+    //             icon: "upload",
+    //             path: "/picture"
+    //         },
+    //     ]
+    // },
     {
         name: "友链",
         icon: "friend",
         path: "/friend"
     },
-    {
-        name: "留言板",
-        icon: "message",
-        path: "/message"
-    },
+    // {
+    //     name: "留言板",
+    //     icon: "message",
+    //     path: "/message"
+    // },
     {
         name: "关于",
         icon: "plane",

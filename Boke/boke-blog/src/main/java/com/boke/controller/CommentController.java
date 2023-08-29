@@ -26,4 +26,9 @@ public class CommentController {
     public ResponseResult addComment(@RequestBody Comment comment){
         return commentService.addComment(comment);
     }
+
+    @GetMapping("/newComment")
+    public ResponseResult newComment(){
+        return commentService.newComment();
+    }
 }

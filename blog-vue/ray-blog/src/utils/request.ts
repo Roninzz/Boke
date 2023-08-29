@@ -2,8 +2,8 @@ import axios, { AxiosError } from "axios";
 
 const requests = axios.create({
     baseURL: '/api',//主机地址
-    timeout: 1000,//超时时间 超时之后会有一次默认的重试
-    headers: { 'token': 'Bearer Token' }//统一token
+    timeout: 10000,//超时时间 超时之后会有一次默认的重试
+    // headers: { 'token': 'Bearer Token' }//统一token
 });
 
 // 添加请求拦截器

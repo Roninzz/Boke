@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/upload").authenticated()
                 //除上面外的所有请求全部不需要认证即可访问
                 .anyRequest().permitAll();
-//                .anyRequest().authenticated();
+//                .anyRequest().anonymous();
         //配置异常处理器
         http.exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)

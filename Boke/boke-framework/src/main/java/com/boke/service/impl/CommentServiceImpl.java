@@ -9,6 +9,7 @@ import com.boke.domain.entity.Comment;
 import com.boke.domain.entity.User;
 import com.boke.domain.vo.CommentChildVo;
 import com.boke.domain.vo.CommentVo;
+import com.boke.domain.vo.NewCommentVo;
 import com.boke.domain.vo.PageVo;
 import com.boke.enums.AppHttpCodeEnum;
 import com.boke.exception.SystemException;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -36,6 +38,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private UserService userService;
     @Autowired
     private CommentService commentService;
+
 
     //查询评论
     @Override
@@ -66,6 +69,43 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }
         save(comment);
         return ResponseResult.okResult();
+    }
+
+    //查询最新评论
+    @Override
+    public ResponseResult newComment() {
+        //查询最新的5条评论，按时间排序
+        LambdaQueryWrapper<Comment> lqw = new LambdaQueryWrapper<>();
+        //查询通过的评论
+        lqw.eq(Comment::getIsCheck,SystemConstants.ARTICLE_STATUS_PUBLIC);
+        //按时间排序
+        //截取5条
+        lqw.orderByDesc(Comment::getCreateTime).last("limit 3");
+        List<Comment> commentList = commentService.list(lqw);
+        //封装 最新评论 VO
+        List<NewCommentVo> newCommentVos = new ArrayList<>();
+        //拿评论者的id查评论者的信息
+        commentList.stream()
+                .map(comment -> {
+                    //获取fromid
+                    Integer fromUid = comment.getFromUid();
+                    //根据fromid到user表中查询用户
+                    User user = userService.getById(fromUid);
+                    //把每个评论信息封装成vo
+                    NewCommentVo newCommentVo = BeanCopyUtils.copyBean(comment, NewCommentVo.class);
+                    //每个vo中的用户头像和昵称赋值
+                    if (Objects.isNull(user)){
+                        return comment;
+                    }
+                    newCommentVo.setAvatar(user.getAvatar());
+                    newCommentVo.setNickname(user.getNickname());
+                    //添加到vo集合中
+                    newCommentVos.add(newCommentVo);
+                    return newCommentVos;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseResult.okResult(newCommentVos);
     }
 
     //封装父评论

@@ -8,8 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import Author from '@/components/Layout/SiderBar/Author'
-import Notice from '@/components/Layout/SiderBar/Notice'
+// import Author from '@/components/Layout/SiderBar/Author'
+// import Notice from '@/components/Layout/SiderBar/Notice'
 </script>
 
 <style lang="scss" scoped></style>
