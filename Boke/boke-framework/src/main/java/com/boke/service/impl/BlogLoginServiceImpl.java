@@ -47,10 +47,10 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         //把用户信息存入redis
         redisCache.setCacheObject("bloglogin:"+userId,loginUser);
         //把user封装成userinfovo
-        UserInfoVo userInfoVo = BeanCopyUtils.copyBean(loginUser.getUser(), UserInfoVo.class);
+//        UserInfoVo userInfoVo = BeanCopyUtils.copyBean(loginUser.getUser(), UserInfoVo.class);
         //把token和userinfo封装，返回
-        BlogUserLoginVo blogUserLoginVo = new BlogUserLoginVo(jwt, userInfoVo);
-        return ResponseResult.okResult(blogUserLoginVo);
+//        BlogUserLoginVo blogUserLoginVo = new BlogUserLoginVo(jwt, userInfoVo);
+        return ResponseResult.okResult(jwt);
     }
 
     @Override

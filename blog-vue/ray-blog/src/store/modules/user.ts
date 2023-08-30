@@ -1,5 +1,5 @@
 import { getUserInfo, logout } from "@/api/login";
-import { UserInfo } from "@/api/user/types";
+import { UserInfo } from "@/api/login/types";
 import { removeToken } from "@/utils/token";
 import { UserState } from "../types";
 
@@ -23,7 +23,7 @@ const useUserStore = defineStore("useUserStore", {
             return new Promise((resolve, reject) => {
                 getUserInfo()
                     .then(({ data }) => {
-                        if (data.flag) {
+                        if (data.code = 200) {
                             this.id = data.data.id;
                             this.avatar = data.data.avatar;
                             this.nickname = data.data.nickname;

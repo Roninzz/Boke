@@ -45,13 +45,13 @@ const routes: RouteRecordRaw[] = [
             title: "归档",
         },
     },
-    // {
-    //     path: "/user",
-    //     component: () => import("@/views/User/index.vue"),
-    //     meta: {
-    //         title: "个人中心",
-    //     },
-    // },
+    {
+        path: "/user",
+        component: () => import("@/views/User/index.vue"),
+        meta: {
+            title: "个人中心",
+        },
+    },
     {
         path: "/category",
         component: () => import("@/views/Category/index.vue"),

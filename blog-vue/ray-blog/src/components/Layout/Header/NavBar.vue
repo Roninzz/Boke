@@ -35,7 +35,7 @@
                         </router-link>
                     </li>
                     <li class="subitem">
-                        <!-- <a class="link" @click="logout"><svg-icon icon-class="logout"></svg-icon> 退出 </a> -->
+                        <a class="link" @click="logout"><svg-icon icon-class="logout"></svg-icon> 退出 </a>
                     </li>
                 </ul>
             </template>
@@ -47,8 +47,7 @@ import useStore from '@/store';
 
 const route = useRoute();
 const { app, user } = useStore();
-
-console.log(app.loginFlag)
+const router = useRouter();
 
 const menuList = [
     {
@@ -114,6 +113,15 @@ const menuList = [
         path: "/about"
     },
 ]
+
+const logout = () => {
+    if (route.path == "/user") {
+        router.go(-1);
+    }
+    user.LogOut();
+    window.$message?.success("退出成功");
+};
+
 </script>
 
 <style lang="scss" scoped>

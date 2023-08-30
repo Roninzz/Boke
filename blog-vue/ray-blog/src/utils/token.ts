@@ -6,7 +6,7 @@ const TokenKey: string = "Token";
 // const domain: string = ".ttkwsd.top";
 
 // token前缀
-export let token_prefix = "Bearer ";
+export let token_prefix = "";
 
 export function getToken() {
     return Cookies.get(TokenKey);

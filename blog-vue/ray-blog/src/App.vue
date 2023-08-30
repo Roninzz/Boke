@@ -5,13 +5,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="app-wrapper">
-    <Header></Header>
-    <main class="main-wrapper">
-      <router-view></router-view>
-    </main>
-    <Footer></Footer>
-  </div>
+  <Provider>
+    <div class="app-wrapper">
+      <Header></Header>
+      <main class="main-wrapper">
+        <router-view></router-view>
+      </main>
+      <Footer></Footer>
+      <Login></Login>
+    </div>
+  </Provider>
 </template>
 
 <style scoped>
