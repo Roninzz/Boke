@@ -33,7 +33,7 @@
                             </n-input-group>
                         </n-form-item>
                     </n-form>
-                    <n-button color="#3e999f" @click="">
+                    <n-button color="#3e999f" @click="handleUpdate">
                         修改
                     </n-button>
                 </div>
@@ -61,18 +61,18 @@ const userForm = ref<UserInfo>({
     intro: user.intro,
     webSite: user.webSite,
 });
-// const handleUpdate = () => {
-//     formInstRef.value?.validate((errors) => {
-//         if (!errors) {
-//             updateUserInfo(userForm.value).then(({ data }) => {
-//                 if (data.flag) {
-//                     user.updateUserInfo(userForm.value);
-//                     window.$message?.success("修改成功");
-//                 }
-//             });
-//         }
-//     })
-// };
+const handleUpdate = () => {
+    formInstRef.value?.validate((errors) => {
+        if (!errors) {
+            updateUserInfo(userForm.value).then(({ data }) => {
+                if (data.code == 200) {
+                    user.updateUserInfo(userForm.value);
+                    window.$message?.success("修改成功");
+                }
+            });
+        }
+    })
+};
 onMounted(() => {
     if (!user.id) {
         router.push("/");

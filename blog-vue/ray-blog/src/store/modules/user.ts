@@ -1,5 +1,6 @@
 import { getUserInfo, logout } from "@/api/login";
-import { UserInfo } from "@/api/login/types";
+import { UserInfo } from "@/api/user/types";
+
 import { removeToken } from "@/utils/token";
 import { UserState } from "../types";
 

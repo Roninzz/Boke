@@ -40,7 +40,14 @@ import org.springframework.stereotype.Service;
 
     @Override
     public ResponseResult updateUserInfo(User user) {
-        updateById(user);
+//        updateById(user);
+        User newuser = User.builder()
+                .id(SecurityUtils.getUserId())
+                .nickname(user.getNickname())
+                .intro(user.getIntro())
+                .webSite(user.getWebSite())
+                .build();
+        userService.updateById(newuser);
         return ResponseResult.okResult();
     }
 

@@ -2,10 +2,13 @@ package com.boke.service.impl;
 
 import com.boke.constants.SystemConstants;
 import com.boke.domain.ResponseResult;
+import com.boke.domain.entity.User;
 import com.boke.enums.AppHttpCodeEnum;
 import com.boke.exception.SystemException;
 import com.boke.service.UploadService;
+import com.boke.service.UserService;
 import com.boke.utils.PathUtils;
+import com.boke.utils.SecurityUtils;
 import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
@@ -16,6 +19,7 @@ import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import lombok.Data;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Objects;
 
 /**
  * @author DreamRay
@@ -39,9 +44,14 @@ public class UploadServiceImpl implements UploadService {
     private String bucket;
     private String url;
 
+    @Autowired
+    private UserService userService;
     @Override
     public ResponseResult uploadImg(MultipartFile img) {
         //参数检查合法性
+        if(Objects.isNull(img)){
+            throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
+        }
         //判断文件类型或者文件大小
         //获取原始文件名
         String originalFilename = img.getOriginalFilename();
@@ -53,6 +63,11 @@ public class UploadServiceImpl implements UploadService {
         //如果通过，上传文件到oss
         String filePath = PathUtils.generateFilePath(originalFilename);
         String url = uploadOss(img,filePath);
+        User user = User.builder()
+                .id(SecurityUtils.getUserId())
+                .avatar(url)
+                .build();
+        userService.updateById(user);
         return ResponseResult.okResult(url);
     }
 

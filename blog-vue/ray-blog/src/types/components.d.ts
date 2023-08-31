@@ -31,6 +31,7 @@ declare module '@vue/runtime-core' {
     NNotificationProvider: typeof import('naive-ui')['NNotificationProvider']
     Notice: typeof import('./../components/Layout/SiderBar/Notice.vue')['default']
     NPagination: typeof import('naive-ui')['NPagination']
+    NUpload: typeof import('naive-ui')['NUpload']
     Pagination: typeof import('./../components/Pagination/index.vue')['default']
     Paging: typeof import('./../components/Pagination/Paging.vue')['default']
     Provider: typeof import('./../components/Provider/index.vue')['default']
@@ -41,6 +42,7 @@ declare module '@vue/runtime-core' {
     SocialList: typeof import('./../components/Layout/SiderBar/SocialList.vue')['default']
     SvgIcon: typeof import('./../components/SvgIcon/index.vue')['default']
     Toggle: typeof import('./../components/Layout/Header/Toggle.vue')['default']
+    UserAvatar: typeof import('./../components/UserAvatar/index.vue')['default']
     Waves: typeof import('./../components/Waves/index.vue')['default']
     WebInfo: typeof import('./../components/Layout/SiderBar/WebInfo.vue')['default']
   }

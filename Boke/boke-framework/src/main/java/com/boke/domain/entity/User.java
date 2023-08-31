@@ -3,6 +3,7 @@ package com.boke.domain.entity;
 import java.util.Date;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -16,6 +17,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  */
 @SuppressWarnings("serial")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("t_user")
