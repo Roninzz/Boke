@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <CommentList :comment-type="commentType"></CommentList> -->
+            <CommentList :comment-type="commentType"></CommentList>
         </div>
     </div>
 </template>

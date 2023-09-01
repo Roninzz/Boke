@@ -44,11 +44,11 @@ public class Comment{
     //是否通过 (0否 1是)    
      private Integer isCheck;
 
-     @TableField(fill = FieldFill.INSERT)
+     @TableField(value = "create_time",fill = FieldFill.INSERT)
     //评论时间    
      private Date createTime;
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
     //更新时间    
      private Date updateTime;
 }

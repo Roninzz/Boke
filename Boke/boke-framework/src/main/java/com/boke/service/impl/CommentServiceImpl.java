@@ -64,7 +64,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     public ResponseResult addComment(Comment comment) {
         //评论内容过滤
-        if (StringUtils.hasText(comment.getCommentContent())){
+        if (!StringUtils.hasText(comment.getCommentContent())){
             throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
         }
         save(comment);
@@ -108,6 +108,17 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return ResponseResult.okResult(newCommentVos);
     }
 
+    //查询评论的子评论
+    @Override
+    public ResponseResult commentChildList(Integer commentId, Integer pageNum, Integer pageSize) {
+        //参数校验
+        if (Objects.isNull(commentId)){
+            throw new SystemException(AppHttpCodeEnum.SYSTEM_ERROR);
+        }
+        List<CommentChildVo> commentChildVoList = getCommentChildList(commentId, pageNum, pageSize).getRows();
+        return ResponseResult.okResult(commentChildVoList);
+    }
+
     //封装父评论
     public List<CommentVo> toCommentVoList(List<Comment> list) {
         List<CommentVo> commentVos = BeanCopyUtils.copyBeanList(list, CommentVo.class);
@@ -123,14 +134,18 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
                     //取出每个跟评论id
                     Integer id = commentVo.getId();
-                    LambdaQueryWrapper<Comment> childLqw = new LambdaQueryWrapper<>();
+//                    LambdaQueryWrapper<Comment> childLqw = new LambdaQueryWrapper<>();
                     //在所有评论中找出id==parentid的评论
-                    childLqw.eq(Comment::getParentId, id);
-                    childLqw.orderByAsc(Comment::getCreateTime);
-                    List<Comment> childList = commentService.list(childLqw);
-                    List<CommentChildVo> commentChildVos = toCommentChildVoList(childList);
-                    commentVo.setChildList(commentChildVos);
-                    commentVo.setChildCount(list.size());
+//                    childLqw.eq(Comment::getParentId, id);
+//                    childLqw.orderByAsc(Comment::getCreateTime);
+//                    List<Comment> childList = commentService.list(childLqw);
+//                    List<CommentChildVo> commentChildVos = toCommentChildVoList(childList);
+                    //调用按评论id查询其子评论方法
+                    PageVo pageVo = getCommentChildList(id, 1, 3);
+                    List<CommentChildVo> commentChildList = pageVo.getRows();
+
+                    commentVo.setChildList(commentChildList);
+                    commentVo.setChildCount(Math.toIntExact(pageVo.getTotal()));
 
                     return commentVo;
                 })
@@ -174,6 +189,18 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
 
         return commentChildVos;
+    }
+    //根据评论id查询该评论下的子评论，并封装分页
+    public PageVo getCommentChildList(Integer commentId, Integer pageNum, Integer pageSize){
+        //查询评论parent_id是此id的评论
+        LambdaQueryWrapper<Comment> lwq = new LambdaQueryWrapper<>();
+        lwq.eq(Comment::getParentId,commentId);
+        //分页
+        Page<Comment> page = new Page<>(pageNum,pageSize);
+        page(page,lwq);
+        //封装
+        List<CommentChildVo> commentChildVoList = toCommentChildVoList(page.getRecords());
+        return new PageVo(commentChildVoList,page.getTotal());
     }
 }
 

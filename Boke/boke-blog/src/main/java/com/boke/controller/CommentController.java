@@ -22,13 +22,20 @@ public class CommentController {
         return commentService.commentList(commentType,typeId,pageNum,pageSize);
     }
     //发表评论
-    @PostMapping
+    @PostMapping("/add")
     public ResponseResult addComment(@RequestBody Comment comment){
         return commentService.addComment(comment);
     }
 
+    //最新评论
     @GetMapping("/newComment")
     public ResponseResult newComment(){
         return commentService.newComment();
+    }
+
+    //根据评论id查询其子评论
+    @GetMapping("/{commentId}/reply")
+    public ResponseResult commentChildList(@PathVariable("commentId") Integer commentId,Integer pageNum,Integer pageSize){
+        return commentService.commentChildList(commentId,pageNum,pageSize);
     }
 }
