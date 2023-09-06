@@ -39,6 +39,7 @@ declare module '@vue/runtime-core' {
     Paging: typeof import('./../components/Pagination/Paging.vue')['default']
     Provider: typeof import('./../components/Provider/index.vue')['default']
     RecentComment: typeof import('./../components/Layout/SiderBar/RecentComment.vue')['default']
+    Register: typeof import('./../components/Dialog/Register.vue')['default']
     ReplyBox: typeof import('./../components/comment/ReplyBox.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

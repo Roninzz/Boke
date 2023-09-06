@@ -13,6 +13,24 @@ export interface LoginForm {
 }
 
 /**
+ * 用户信息
+ */
+export interface UserForm {
+    /**
+     * 用户名
+     */
+    username: string;
+    /**
+     * 密码
+     */
+    password: string;
+    /**
+     * 验证码
+     */
+    code: string;
+}
+
+/**
  * 用户登录信息
  */
 export interface UserInfo {

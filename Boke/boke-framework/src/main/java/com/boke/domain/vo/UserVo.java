@@ -35,7 +35,7 @@ public class UserVo {
     //登录地址
 //    private String ipSource;
     //登录方式 (1邮箱 2QQ 3Gitee 4Github)
-//    private Integer loginType;
+    private Integer loginType;
     //是否禁用 (0否 1是)
 //    private Integer isDisable;
     //登录时间

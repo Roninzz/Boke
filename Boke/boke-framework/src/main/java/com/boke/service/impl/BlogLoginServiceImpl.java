@@ -1,5 +1,6 @@
 package com.boke.service.impl;
 
+import com.boke.constants.RedisConstant;
 import com.boke.domain.ResponseResult;
 import com.boke.domain.entity.LoginUser;
 import com.boke.domain.entity.User;
@@ -45,7 +46,7 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         String userId = loginUser.getUser().getId().toString();
         String jwt = JwtUtil.createJWT(userId);
         //把用户信息存入redis
-        redisCache.setCacheObject("bloglogin:"+userId,loginUser);
+        redisCache.setCacheObject(RedisConstant.USER_LOGIN_BLOG +userId,loginUser);
         //把user封装成userinfovo
 //        UserInfoVo userInfoVo = BeanCopyUtils.copyBean(loginUser.getUser(), UserInfoVo.class);
         //把token和userinfo封装，返回
@@ -61,7 +62,7 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         //获取用户id
         Integer id = loginUser.getUser().getId();
         //删除redis中的用户信息
-        redisCache.deleteObject("bloglogin:"+id);
+        redisCache.deleteObject(RedisConstant.USER_LOGIN_BLOG+id);
         return ResponseResult.okResult();
     }
 }

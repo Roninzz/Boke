@@ -3,6 +3,7 @@ package com.boke.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.boke.domain.ResponseResult;
 import com.boke.domain.entity.User;
+import com.boke.domain.vo.RegisterVo;
 
 
 /**
@@ -17,6 +18,6 @@ public interface UserService extends IService<User> {
 
     ResponseResult updateUserInfo(User user);
 
-    ResponseResult register(User user);
+    ResponseResult register(RegisterVo registerVo);
 }
 

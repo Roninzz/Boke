@@ -1,7 +1,7 @@
 import { Result } from "@/model";
 import request from "@/utils/request";
 import { AxiosPromise } from "axios";
-import { LoginForm, UserInfo } from "./types";
+import { LoginForm, UserForm, UserInfo } from "./types";
 
 
 
@@ -18,6 +18,18 @@ export function login(data: LoginForm): AxiosPromise<Result<string>> {
     });
 }
 
+/**
+ * 邮箱注册
+ * @param data 注册信息
+ */
+export function register(data: UserForm): AxiosPromise<Result<null>> {
+    return request({
+        url: "/register",
+        method: "post",
+        data,
+    });
+}
+
 
 /**
  * 获取登录用户信息
@@ -27,6 +39,20 @@ export function getUserInfo(): AxiosPromise<Result<UserInfo>> {
     return request({
         url: "/user/userInfo",
         method: "get",
+    });
+}
+
+/**
+ * 发送邮箱验证码
+ * @param params 邮箱
+ */
+export function getCode(username: string): AxiosPromise<Result<null>> {
+    return request({
+        url: "/code",
+        method: "get",
+        params: {
+            username,
+        },
     });
 }
 

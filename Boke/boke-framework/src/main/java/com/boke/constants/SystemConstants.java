@@ -1,5 +1,7 @@
 package com.boke.constants;
-
+/*
+* 公共常量
+* */
 public class SystemConstants {
     /*
     * 文章公开
@@ -50,4 +52,9 @@ public class SystemConstants {
      * 评论类型 是否有父评论，-1没有,其他数字有
      * */
     public static final int HAVE_PARENT_COMMENT = -1;
+
+    /**
+     * 默认用户昵称
+     */
+    public static final String USER_NICKNAME = "用户";
 }

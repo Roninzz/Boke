@@ -13,6 +13,7 @@ onMounted(() => {
       </main>
       <Footer></Footer>
       <Login></Login>
+      <Register></Register>
     </div>
   </Provider>
 </template>
