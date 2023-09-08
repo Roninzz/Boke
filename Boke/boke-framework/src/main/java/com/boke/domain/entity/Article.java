@@ -1,7 +1,6 @@
 package com.boke.domain.entity;
 
 import java.util.Date;
-import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -62,6 +61,9 @@ public class Article{
     private Date updateTime;
 
 
-
+    public Article(Integer id, long viewCount) {
+        this.id = id;
+        this.viewCount = viewCount;
+    }
 }
 

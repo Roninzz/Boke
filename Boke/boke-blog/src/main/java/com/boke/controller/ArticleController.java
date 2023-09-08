@@ -1,5 +1,6 @@
 package com.boke.controller;
 
+import com.boke.annotation.SystemLog;
 import com.boke.domain.ResponseResult;
 import com.boke.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ public class ArticleController {
 //        return articleService.list();
 //    }
     @GetMapping("/hotArticleList")
-     public ResponseResult hotArticleList(){
+    @SystemLog(BusinessName = "获取热门文章")
+    public ResponseResult hotArticleList(){
         //热门文章查询  逢装成ResponseResult返回，要调用service
         return articleService.getHotArticleList();
      }

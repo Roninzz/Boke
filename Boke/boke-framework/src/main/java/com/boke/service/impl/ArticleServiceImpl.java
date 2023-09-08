@@ -3,6 +3,7 @@ package com.boke.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.boke.constants.RedisConstant;
 import com.boke.constants.SystemConstants;
 import com.boke.domain.ResponseResult;
 import com.boke.domain.entity.Article;
@@ -16,6 +17,7 @@ import com.boke.service.ArticleTagService;
 import com.boke.service.CategoryService;
 import com.boke.service.TagService;
 import com.boke.utils.BeanCopyUtils;
+import com.boke.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private TagService tagService;
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private RedisCache redisCache;
     @Override
     public ResponseResult getHotArticleList() {
         //热门文章查询  逢装成ResponseResult返回
@@ -144,14 +148,20 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public ResponseResult getArticleDetail(Long id) {
         //根据id查询文章
         Article article = getById(id);
+        //浏览量+1
+        redisCache.incrementCacheMapValue(RedisConstant.ARTICLE_VIEW_COUNT,id.toString(),1);
         //封装vo
         ArticleDetailVo articleDetailVo = BeanCopyUtils.copyBean(article, ArticleDetailVo.class);
         //根据分类id查询分类名称
         Category category = categoryService.getById(articleDetailVo.getCategoryId());
         if (category != null){
             articleDetailVo.setCategoryName(category.getCategoryName());
+        }else {
+            articleDetailVo.setCategoryName(null);
         }
-        article.setCategoryName(null);
+        //查询浏览量并赋值
+        Integer viewCount = redisCache.getCacheMapValue(RedisConstant.ARTICLE_VIEW_COUNT, id.toString());
+        articleDetailVo.setViewCount(viewCount.longValue());
         //查询每个文章的标签
         LambdaQueryWrapper<ArticleTag> lqw = new LambdaQueryWrapper<>();
         lqw.eq(ArticleTag::getArticleId,id);
